@@ -37,7 +37,7 @@ namespace ManageDos.Controllers
         public ActionResult BuildToDoLists()
         {
 
-            return PartialView("_ToDoLists", GetMyLists());
+            return PartialView("_ToDoList", GetMyLists());
         }
 
         // GET: ToDoLists/Details/5
