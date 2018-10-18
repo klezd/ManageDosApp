@@ -1,0 +1,42 @@
+﻿@model ManageDos.Models.ToDoItem
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div id="tableDiv"></div>
+<div id="toDoItemsCreateForm">
+    @using (Ajax.BeginForm("AJAXCreate", "ToDoItems",
+        new AjaxOptions
+        {
+            InsertionMode = InsertionMode.Replace,
+            HttpMethod = "POST",
+            UpdateTargetId = "tableDiv"
+        }
+
+        ))
+    {
+    <div class="form-group">
+        @Html.AntiForgeryToken()
+
+        <div"col-md-10" >
+            @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+        </div"col-md-10">
+        <divclass="col-md-10" >
+            @Html.LabelFor(model => model.DueDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
+        </divclass="col-md-10">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Add" id="addItemBtn" class="btn btn-default" />
+        </div>
+    </div>
+    }
+</div>
+@section Scripts{
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Custom_scripts/BuildTable.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+    }
