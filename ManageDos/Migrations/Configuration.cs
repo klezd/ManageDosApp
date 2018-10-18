@@ -13,7 +13,7 @@ namespace ManageDos.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
             ContextKey = "ManageDos.Models.ApplicationDbContext";
         }
 

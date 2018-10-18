@@ -15,12 +15,12 @@ namespace ManageDos.Models
         [Display(Name = "List Description")]
         [Required(AllowEmptyStrings = true)]
         public string ListDescription { get; set; }
-
-        public List<ToDoItem> ListItem { get; set; }
-        
         public VisibleStatus visible { get; set; }
 
+        public List<ToDoItem> ToDoItem { get; set; }
+
         public virtual ApplicationUser Owner { get; set; }
+
         //TODO: Add GroupID 
     }
 
