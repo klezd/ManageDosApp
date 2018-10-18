@@ -27,6 +27,7 @@ namespace ManageDos.Controllers
             string currentUserId = User.Identity.GetUserId();
             ApplicationUser currentUser = db.Users.FirstOrDefault
                 (x => x.Id == currentUserId);
+            
 
             IEnumerable<ToDoItem> MyToDoes = db.ToDoItems.ToList().Where(x => x.User == currentUser);
 

@@ -72,3 +72,4 @@ C:\Users\helii\ManageDosApp\ManageDos\obj\Debug\ManageDos.csproj.CoreCompileInpu
 C:\Users\helii\ManageDosApp\ManageDos\obj\Debug\ManageDos.csproj.CopyComplete
 C:\Users\helii\ManageDosApp\ManageDos\obj\Debug\ManageDos.dll
 C:\Users\helii\ManageDosApp\ManageDos\obj\Debug\ManageDos.pdb
+C:\Users\helii\ManageDosApp\ManageDos\obj\Debug\ManageDos.csprojAssemblyReference.cache

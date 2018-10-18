@@ -9,9 +9,7 @@
         <th>
             @Html.DisplayNameFor(model => model.ListDescription)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.visible)
-        </th>
+        
         <th></th>
     </tr>
 
@@ -19,14 +17,15 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
+                <a href="@Url.Action("Index","ToDoItems", new { ListId = item.ID})">
+                @Html.DisplayFor(modelItem => item.Title)</a>
+
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ListDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.visible)
-            </td>
+            </td> 
+           
+            
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
                 @Html.ActionLink("Details", "Details", new { id = item.ID }) |
