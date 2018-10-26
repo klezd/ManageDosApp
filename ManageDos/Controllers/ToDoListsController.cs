@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 
 namespace ManageDos.Controllers
 {
+    
     public class ToDoListsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -23,13 +24,21 @@ namespace ManageDos.Controllers
 
         private IEnumerable<ToDoList> GetMyLists()
         {
+            IEnumerable<ToDoList> MyLists;
             string currentUserId = User.Identity.GetUserId();
-            ApplicationUser currentUser = db.Users.FirstOrDefault
-                (x => x.Id == currentUserId);
+            if (currentUserId != null)
+            {
+                ApplicationUser currentUser = db.Users.FirstOrDefault
+                    (x => x.Id == currentUserId);
 
-            IEnumerable<ToDoList> MyLists = db.ToDoLists.ToList().Where(x => x.Owner == currentUser);
+                MyLists = db.ToDoLists.ToList().Where(x => x.Owner == currentUser);
+            }
+            else
+            {
+                MyLists = db.ToDoLists.ToList().Where(x => x.visible == VisibleStatus.Public);
+            }
 
-            
+
 
             return MyLists;
         }
@@ -56,6 +65,7 @@ namespace ManageDos.Controllers
         }
 
         // GET: ToDoLists/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -66,6 +76,7 @@ namespace ManageDos.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult AJAXCreate([Bind(Include = "ID,Title,ListDescription,visible")] ToDoList toDoList)
         {
             if (ModelState.IsValid)
@@ -83,6 +94,7 @@ namespace ManageDos.Controllers
         }
 
         // GET: ToDoLists/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -102,6 +114,7 @@ namespace ManageDos.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit([Bind(Include = "ID,Title,ListDescription,visible")] ToDoList toDoList)
         {
             if (ModelState.IsValid)
@@ -118,6 +131,7 @@ namespace ManageDos.Controllers
         }
 
         // GET: ToDoLists/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -135,6 +149,7 @@ namespace ManageDos.Controllers
         // POST: ToDoLists/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
             ToDoList toDoList = db.ToDoLists.Find(id);

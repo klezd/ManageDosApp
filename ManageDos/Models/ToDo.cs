@@ -41,6 +41,8 @@ namespace ManageDos.Models
 
         public virtual ApplicationUser User { get; set; }
 
+        
+
     }
 
     public enum VisibleStatus { Public, Group, Private }

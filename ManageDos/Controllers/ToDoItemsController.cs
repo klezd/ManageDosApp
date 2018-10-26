@@ -12,25 +12,33 @@ using ManageDos.Models;
 
 namespace ManageDos.Controllers
 {
+    [Authorize]
     public class ToDoItemsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: ToDoItems
-        public ActionResult Index()
+        public ActionResult Index(int? ListId)
         {
-
+            ViewBag.ListId = ListId;
             return View();
         }
-        private IEnumerable<ToDoItem> GetMyToDoes()
+        private IEnumerable<ToDoItem> GetMyToDoes(int? ListId)
         {
+
+            System.Diagnostics.Debug.WriteLine(ListId);
+
+            ToDoList toDoList = db.ToDoLists.FirstOrDefault
+                (x => x.ID == ListId);
+            System.Diagnostics.Debug.WriteLine(toDoList);
+
+            
             string currentUserId = User.Identity.GetUserId();
             ApplicationUser currentUser = db.Users.FirstOrDefault
                 (x => x.Id == currentUserId);
-            
-            
 
-            IEnumerable<ToDoItem> MyToDoes = db.ToDoItems.ToList().Where(x => x.User == currentUser);
+
+            IEnumerable<ToDoItem> MyToDoes = db.ToDoItems.ToList().Where((x => x.User == currentUser &&  x.List == toDoList));
 
             int completeCount = 0;
             foreach (ToDoItem toDoItem in MyToDoes)
@@ -46,10 +54,10 @@ namespace ManageDos.Controllers
             return MyToDoes;
         }
 
-        public ActionResult BuildToDoTable()
+        public ActionResult BuildToDoTable(int? ListId)
         {
             
-            return PartialView("_ToDoTable", GetMyToDoes());
+            return PartialView("_ToDoTable", GetMyToDoes(ListId));
         }
 
         // GET: ToDoItems/Details/5
@@ -78,21 +86,24 @@ namespace ManageDos.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AJAXCreate([Bind(Include = "ID,Content,DueDate")] ToDoItem toDoItem)
+        public ActionResult AJAXCreate([Bind(Include = "ID,Content,DueDate")] ToDoItem toDoItem, int? ListId)
         {
             if (ModelState.IsValid)
             {
                 string currentUserId = User.Identity.GetUserId();
                 ApplicationUser currentUser = db.Users.FirstOrDefault
                     (x => x.Id == currentUserId );
+                ToDoList list = db.ToDoLists.FirstOrDefault
+                    (x => x.ID == ListId);
                 toDoItem.User = currentUser;
+                toDoItem.List = list;
                 toDoItem.IsDone = false;
                 db.ToDoItems.Add(toDoItem);
                 db.SaveChanges();
                 
             }
-
-            return PartialView("_ToDoTable", GetMyToDoes());
+            // TODO
+            return PartialView("_ToDoTable", GetMyToDoes(ListId));
         }
 
         // GET: ToDoItems/Edit/5
@@ -152,7 +163,7 @@ namespace ManageDos.Controllers
                 toDoItem.IsDone = value;
                 db.Entry(toDoItem).State = EntityState.Modified;
                 db.SaveChanges();
-                return PartialView("_ToDoTable", GetMyToDoes());
+                return PartialView("_ToDoTable", GetMyToDoes(toDoItem.List.ID));
             }
            
         }

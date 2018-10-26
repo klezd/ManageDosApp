@@ -6,8 +6,8 @@
 
 <div id="tableDiv"></div>
 <div id="toDoItemsCreateForm">
-    @using (Ajax.BeginForm("AJAXCreate", "ToDoItems",
-        new AjaxOptions
+    @using (Ajax.BeginForm(actionName: "AJAXCreate", controllerName: "ToDoItems", routeValues: new { ListId = ViewBag.ListId },
+       ajaxOptions:  new AjaxOptions
         {
             InsertionMode = InsertionMode.Replace,
             HttpMethod = "POST",

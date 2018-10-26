@@ -15,23 +15,27 @@
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                <a href="@Url.Action("Index","ToDoItems", new { Id = item.ID})">
-                @Html.DisplayFor(modelItem => item.Title)</a>
+    <tr>
+        <td>
+            <a href="@Url.Action("Index","ToDoItems", new { ListId = item.ID})">
+                @Html.DisplayFor(modelItem => item.Title)
+            </a>
 
-            </td>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ListDescription)
+        </td>
+
+        @if (User.Identity.IsAuthenticated)
+        {
             <td>
-                @Html.DisplayFor(modelItem => item.ListDescription)
-            </td> 
-           
-            
-            <td>
+
                 @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+
                 @Html.ActionLink("Delete", "Delete", new { id = item.ID })
             </td>
-        </tr>
+        }
+    </tr>
     }
 
 </table>
