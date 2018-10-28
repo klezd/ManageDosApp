@@ -5,37 +5,30 @@
 }
 
 <div id="tableDiv"></div>
-<div id="toDoItemsCreateForm">
+<div id="toDoItemsCreateForm" style="width:80%; margin:auto">
     @using (Ajax.BeginForm(actionName: "AJAXCreate", controllerName: "ToDoItems", routeValues: new { ListId = ViewBag.ListId },
        ajaxOptions:  new AjaxOptions
-        {
-            InsertionMode = InsertionMode.Replace,
-            HttpMethod = "POST",
-            UpdateTargetId = "tableDiv"
-        }
+       {
+           InsertionMode = InsertionMode.Replace,
+           HttpMethod = "POST",
+           UpdateTargetId = "tableDiv"
+       },
+       htmlAttributes: new { @class = "form-inline" }
 
         ))
     {
+    @Html.AntiForgeryToken()
+
     <div class="form-group">
-
-        @Html.AntiForgeryToken()
-
-        <div class="col-md-10" >
-            @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="col-md-10" >
-            @Html.LabelFor(model => model.DueDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Add"  class="btn btn-default" />
-        </div>
+        @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control", @placeholder = "Content" } })
+        @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
     </div>
+
+    <div class="form-group">
+        @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "Due Date" } })
+        @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
+    </div>
+    <button type="submit" class="btn btn-default">Add</button>
     }
 </div>
 @section Scripts{
