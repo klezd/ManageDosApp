@@ -26,19 +26,18 @@ namespace ManageDos.Controllers
         {
             IEnumerable<ToDoList> MyLists;
             string currentUserId = User.Identity.GetUserId();
+            ViewBag.UserId = currentUserId;
             if (currentUserId != null)
             {
                 ApplicationUser currentUser = db.Users.FirstOrDefault
                     (x => x.Id == currentUserId);
 
-                MyLists = db.ToDoLists.ToList().Where(x => x.Owner == currentUser);
+                MyLists = db.ToDoLists.ToList().Where(x => x.Owner == currentUser || x.visible == VisibleStatus.Public);
             }
             else
             {
                 MyLists = db.ToDoLists.ToList().Where(x => x.visible == VisibleStatus.Public);
             }
-
-
 
             return MyLists;
         }

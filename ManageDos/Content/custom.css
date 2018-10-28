@@ -1,0 +1,21 @@
+﻿/*
+    for the index - to do item
+*/
+
+#toDoItemsCreateForm {
+    width: 80%;
+    margin:auto;
+    margin-top: 10px;
+    padding: 20px;
+    border: 0.5px solid #e5dbdb;
+    border-radius: 5px;
+}
+
+#toDoItemsCreateForm div.form-group {
+    width:30%;
+}
+
+#toDoItemsCreateForm form {
+    width: auto;
+    margin: auto;
+}
